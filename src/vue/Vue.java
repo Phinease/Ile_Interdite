@@ -47,12 +47,17 @@ public class Vue extends JFrame implements Observer{
         this.pack();
     }
 
-    public void endGameScreen() {
+    public void endGameScreen(Boolean win) {
         this.remove(grille);
         this.remove(info);
         this.remove(commandes);
 
-        JLabel label = new JLabel("GAME OVER");
+        JLabel label = new JLabel("");
+        if (win){
+            label.setText("GAME WIN");
+        } else {
+            label.setText("GAME OVER");
+        }
         label.setFont(new Font("Verdana", Font.BOLD, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setSize(this.getSize());
@@ -147,7 +152,7 @@ class Grille extends JPanel implements MouseListener, NaObserver {
     public void overNa() {}
     @Override
     public void chosenNaJoueur(Joueur.Jou j) {
-        Zone pos = modele.getJoueurs().get(0).getPosition();;
+        Zone pos = modele.getJoueurs().get(0).getPosition();
         switch (j){
             case j1:
                 pos = modele.getJoueurs().get(0).getPosition();
