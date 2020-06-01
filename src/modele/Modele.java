@@ -366,13 +366,15 @@ public class Modele extends vue.Observable {
     * **/
     public boolean activeEchange(){
         ArrayList<Integer> js = joueursMemeZone();
-        return (js.size() >0)||(this.getJoueurCourant().getRole() == Joueur.Role.Messageur);
+        ArrayList<Artefact> clesCourant = this.getJoueurCourant().mesCles();
+        boolean cond = (js.size() >0)||(this.getJoueurCourant().getRole() == Joueur.Role.Messageur);
+        return cond && this.getJoueurCourant().testAction() &&(clesCourant.size()>0);
     }
 
     public void cleEchange(Artefact cle){
         ArrayList<Integer> js = joueursMemeZone();
         Joueur courant = getJoueurCourant();
-        if(courant.haveCle(cle)&&js.size()>0){
+        if(courant.haveCle(cle)&&js.size()>0 && courant.testAction()){
             if(js.size() == 1){
                 courant.echangeCle(joueurs.get(js.get(0)),cle);
             }else{
@@ -380,7 +382,6 @@ public class Modele extends vue.Observable {
                 courant.echangeCle(joueurs.get(js.get(idx)),cle);
             }
         }
-        courant.addAction();
         notifyObservers();
     }
 
@@ -388,10 +389,9 @@ public class Modele extends vue.Observable {
     /**Cle Echange pour Messageur**/
     public void cleEchangeMessageur(int idxJoueur, Artefact cle){
         Joueur courant = this.getJoueurCourant();
-        if(courant.getRole() == Joueur.Role.Messageur){
+        if(courant.getRole() == Joueur.Role.Messageur && this.activeEchange()){
             courant.echangeCle(this.joueurs.get(idxJoueur),cle);
         }
-        courant.addAction();
         notifyObservers();
     }
 
@@ -473,9 +473,6 @@ public class Modele extends vue.Observable {
 
     public boolean gameEnd(){
         for(Joueur j:joueurs){
-            if(!j.position.nonSubmerge()){
-                return true;
-            }
             if(j.position!=zones[heli][heli]){
                 return false;
             }

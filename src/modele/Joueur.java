@@ -114,10 +114,11 @@ public class Joueur {
      * precondition "this" possede bien une cle du type donnee
      **/
     public void echangeCle(Joueur joueur, Artefact cle){
-        if(cle != Artefact.normal) {
+        if(cle != Artefact.normal&&this.testAction()) {
             int n = this.cles.get(cle);
             this.cles.replace(cle, n - 1);
             joueur.receiveCle(cle);
+            this.addAction();
         }
     }
 

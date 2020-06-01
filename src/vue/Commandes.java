@@ -243,7 +243,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             this.add(jr);
         }
         this.heli_joueur = true;
-        modele.notifyObservers();
+
         repaint();
         this.doLayout();
     }
@@ -288,31 +288,34 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     public void addClesEchange(){
         Joueur courant = this.modele.getJoueurCourant();
         ArrayList<Artefact> clesCourant = courant.mesCles();
-
-        if(clesCourant.size() !=0 ) {
-            if(cle_echange && this.modele.activeEchange()){
-                this.remove(echange);
-                this.cle_echange = false;
-                for (Modele.Artefact cle : clesCourant) {
-                    this.addEchangeBouton(cle);
-                }
-                this.cles_bouton = true;
-                System.out.println(this.cles_bouton+"................");
-            }else if((courant.getRole() == Joueur.Role.Messageur) && (this.cles_bouton == true)){
-                for(JButton b : this.cleCourant){
-                    this.remove(b);
-                }
-                this.cles_bouton = false;
-                this.addJoueursBouton(cleEchange);
-
-            }else {
-                this.resetEchange();
-            }
-
-            repaint();
-            this.doLayout();
-            this.modele.notifyObservers();
+        if(!this.modele.activeEchange()){
+            this.resetEchange();
+            return;
         }
+
+        if(cle_echange){
+            this.remove(echange);
+            this.cle_echange = false;
+            for (Modele.Artefact cle : clesCourant) {
+                this.addEchangeBouton(cle);
+            }
+            this.cles_bouton = true;
+            // System.out.println(this.cles_bouton+"................");
+        }else if((courant.getRole() == Joueur.Role.Messageur) && (this.cles_bouton == true)){
+            for(JButton b : this.cleCourant){
+                this.remove(b);
+            }
+            this.cles_bouton = false;
+            this.addJoueursBouton(cleEchange);
+
+        }else {
+            System.out.println("resertechge");
+            this.resetEchange();
+        }
+
+        repaint();
+        this.doLayout();
+        this.modele.notifyObservers();
 
     }
 
@@ -325,6 +328,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             if(!this.cleCourant.contains(cleBouton)) {
                 this.cleCourant.add(cleBouton);
                 this.add(cleBouton);
+
             }
     }
 
@@ -362,6 +366,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         this.cle_echange = true;
 
         repaint();
+        this.doLayout();
         this.setPreferredSize(getPreferredSize());
     }
 
