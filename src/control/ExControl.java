@@ -37,10 +37,10 @@ public class ExControl implements MouseListener {
                 modele.assecherEx(Joueur.DirectionEx.rightup);
                 break;
             case "DR":
-                modele.assecherEx(Joueur.DirectionEx.leftup);
+                modele.assecherEx(Joueur.DirectionEx.rightdown);
                 break;
             case "UL":
-                modele.assecherEx(Joueur.DirectionEx.rightdown);
+                modele.assecherEx(Joueur.DirectionEx.leftup);
                 break;
             case "DL":
                 modele.assecherEx(Joueur.DirectionEx.leftdown);

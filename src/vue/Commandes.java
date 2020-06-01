@@ -17,8 +17,8 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     private final Modele modele;
     private final Vue vue;
     private boolean assBool = true;
-    private boolean cle_echange = false;//30/05
-    private boolean cles_bouton = false;//30/05
+    private boolean cle_echange;
+    private boolean cles_bouton = false;
     private boolean sable_bouton;
     private boolean heli_bouton;
     private boolean heli_joueur = false;
@@ -116,7 +116,6 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         this.cle_echange = true;
         this.addArtefacts();
 
-        //31/05
         sacDeSable.addMouseListener(sableControl);
         this.add(sacDeSable);
         this.sable_bouton = true;
@@ -154,6 +153,8 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             b.addMouseListener(naviControl);
         }
         deplacer.addMouseListener(naviControl);
+
+        this.setLayout(new GridLayout());
     }
 
     public JFrame myJFrame(){return this.vue;}
@@ -198,6 +199,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         for (JButton b: assEX) {
             this.add(b);
         }
+        System.out.println("CHECK2");
         repaint();
         this.doLayout();
     }

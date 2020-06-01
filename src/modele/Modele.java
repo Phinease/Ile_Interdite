@@ -68,8 +68,6 @@ public class Modele extends vue.Observable {
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
                 Role.Joueur));
         Iterator<Integer> it = hs.iterator();
-
-
         for (int i = 0; i < 2; i++) {
             int x = it.next();
             switch (x){
@@ -104,7 +102,7 @@ public class Modele extends vue.Observable {
             }
         }
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                Role.Navigateur));
+                Role.Explorateur));
 
         //init Paquet
         this.PaquetZone=new Paquet(this.zones,this.LARGEUR,this.HAUTEUR);
