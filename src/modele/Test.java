@@ -1,14 +1,19 @@
-package Modele;
+package modele;
 
-import Vue.Vue;
+import vue.Vue;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             Modele modele = new Modele();
-            Vue vue = new Vue(modele);
+            try {
+                Vue vue = new Vue(modele);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

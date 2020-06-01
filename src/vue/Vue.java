@@ -38,9 +38,10 @@ public class Vue extends JFrame implements Observer{
         this.addKeyListener(kc);
         this.grille.addKeyListener(kc);
         this.commandes.addKeyListener(kc);
+        this.info.addKeyListener(kc);
 
 
-        this.setPreferredSize(new Dimension(1010,850));
+        this.setPreferredSize(new Dimension(1100,920));
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();

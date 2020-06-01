@@ -1,14 +1,18 @@
 package modele;
 
 import control.KeyControl;
+import jeuDeCartes.CarteZone;
+import jeuDeCartes.Paquet;
 import modele.Joueur.Role;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Modele extends vue.Observable {
-    public static final int HAUTEUR = 20, LARGEUR = 20;
+    public static final int HAUTEUR = 22, LARGEUR = 22;
     public static final int heli = HAUTEUR/2;
     private static final int nbJoueur = 4;
     protected Zone[][] zones;
@@ -22,7 +26,7 @@ public class Modele extends vue.Observable {
     protected ArrayList<Joueur> joueurs = new ArrayList<>();
     protected Artefact cleChosen = Artefact.normal;
     public enum Artefact{air, eau, terre, feu, normal}
-
+    public Paquet PaquetZone;
 
     public Modele() {
         zones = new Zone[LARGEUR+2][HAUTEUR+2];
@@ -56,10 +60,18 @@ public class Modele extends vue.Observable {
                 }
             }
         }
+        HashSet<Integer> hs = new HashSet<>();
+        do {
+            int tmp = random.nextInt(6);
+            hs.add(tmp);
+        } while (hs.size() != 4);
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-               Role.Joueur));
-        for (int i = 0; i < 3; i++) {
-            int x = random.nextInt(6);
+                Role.Joueur));
+        Iterator<Integer> it = hs.iterator();
+
+
+        for (int i = 0; i < 2; i++) {
+            int x = it.next();
             switch (x){
                 case 0:
                     joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
@@ -91,6 +103,12 @@ public class Modele extends vue.Observable {
                     break;
             }
         }
+        joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                Role.Navigateur));
+
+        //init Paquet
+        this.PaquetZone=new Paquet(this.zones,this.LARGEUR,this.HAUTEUR);
+        this.PaquetZone.melanger();
     }
 
     public void deplacePilote(Zone e){
@@ -360,16 +378,18 @@ public class Modele extends vue.Observable {
         }
         return js;
     }
+
     //30/05
    /** return true si il existe au moins un joueurs avec qui le joueurs courant peut echange une cle
     * ou si le joueur courant est un messageur
     * **/
-    public boolean activeEchange(){
-        ArrayList<Integer> js = joueursMemeZone();
-        ArrayList<Artefact> clesCourant = this.getJoueurCourant().mesCles();
-        boolean cond = (js.size() >0)||(this.getJoueurCourant().getRole() == Joueur.Role.Messageur);
-        return cond && this.getJoueurCourant().testAction() &&(clesCourant.size()>0);
-    }
+   public boolean activeEchange(){
+       ArrayList<Integer> js = joueursMemeZone();
+       ArrayList<Artefact> clesCourant = this.getJoueurCourant().mesCles();
+       boolean cond = (js.size() >0)||(this.getJoueurCourant().getRole() == Joueur.Role.Messageur);
+       return cond && this.getJoueurCourant().testAction() &&(clesCourant.size()>0);
+   }
+
 
     public void cleEchange(Artefact cle){
         ArrayList<Integer> js = joueursMemeZone();
@@ -396,14 +416,28 @@ public class Modele extends vue.Observable {
     }
 
     public void findeTour(int nbr){
-        while (nbr>0){
-            int x = random.nextInt(LARGEUR+1);
-            int y = random.nextInt(HAUTEUR+1);
-            if(zones[x][y].nonSubmerge() && (x != heli || y != heli)){
-                zones[x][y].evolue();
-                nbr -= 1;
-            }
+        //Inondee par random
+//        while (nbr>0){
+//            int x = random.nextInt(LARGEUR+1);
+//            int y = random.nextInt(HAUTEUR+1);
+//            if(zones[x][y].nonSubmerge() && (x != heli || y != heli)){
+//                zones[x][y].evolue();
+//                nbr -= 1;
+//            }
+//        }
+
+        //Inondee par Jeu de Carte
+        while(nbr>0) {
+             CarteZone z = this.PaquetZone.tirer();
+             int x=z.getX();
+             int y=z.getY();
+             if(zones[x][y].nonSubmerge()&& (x != heli || y != heli)){
+                 zones[x][y].evolue();
+                 nbr-=1;
+             }
+
         }
+
         int bonneChance = random.nextInt(LARGEUR*HAUTEUR-2);
         this.getJoueurCourant().getCle(bonneChance);
         this.getJoueurCourant().resetNbr();
@@ -473,6 +507,9 @@ public class Modele extends vue.Observable {
 
     public boolean gameEnd(){
         for(Joueur j:joueurs){
+            if(!j.position.nonSubmerge()){
+                return true;
+            }
             if(j.position!=zones[heli][heli]){
                 return false;
             }
@@ -482,6 +519,10 @@ public class Modele extends vue.Observable {
 
     public void End(){
         checkEnd(gameEnd());
+    }
+
+    public Zone[][] getZones() {
+        return zones;
     }
 }
 

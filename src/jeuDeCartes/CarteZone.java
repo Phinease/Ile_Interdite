@@ -1,15 +1,21 @@
 package jeuDeCartes;
 
-import modele.Modele;
+
 import modele.Zone;
 
 public class CarteZone {
-    private Zone zone;
+    private int x;
+    private int y;
     public CarteZone(Zone zone){
-        this.zone=zone;
+        this.x=zone.getX();
+        this.y=zone.getY();
     }
 
-    public Zone getZone() {
-        return zone;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

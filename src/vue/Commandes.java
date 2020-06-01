@@ -29,7 +29,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
 
     JButton next_tour = new JButton("FIN DU TOUR");
-    JButton echange = new JButton("ECHANGE CLE");
+    JButton echange = new JButton("ECHANGE");
     JButton cancel = new JButton("CANCEL");
     JButton assecher = new JButton("ASSECHER");
 
@@ -58,7 +58,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     JButton joueur2 = new JButton("JOUEUR 2");;
     JButton[] joueurs = {joueur0, joueur1, joueur2};
 
-    JButton sacDeSable = new JButton("SAC DE SABLE");
+    JButton sacDeSable = new JButton("SABLE");
     JButton heli = new JButton("HELICOPTERE");
 
 
@@ -94,15 +94,16 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         assecher.addMouseListener(ass);
         cancel.addMouseListener(ass);
 
-        Color colorAss = Color.blue;//new Color(65,105,225);
+        Color colorAss = Color.cyan;//new Color(65,105,225);
         assecher.setBackground(colorAss);
-        assecher.setForeground(Color.white);
+        assecher.setOpaque(true);
         cancel.setBackground(colorAss);
-        cancel.setForeground(Color.white);
+        assecher.setOpaque(true);
         for (JButton b: directions) {
             b.addMouseListener(ass);
+
             b.setBackground(colorAss);
-            b.setForeground(Color.white);
+            b.setOpaque(true);
         }
         this.add(next_tour);
         this.add(assecher);
@@ -110,6 +111,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
         echange.addMouseListener(this.cleEchange);
         echange.setBackground(new Color(255,250,210));
+        echange.setOpaque(true);
         this.add(echange);
         this.cle_echange = true;
         this.addArtefacts();
@@ -121,6 +123,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
         heli.addMouseListener(heliControl);
         heli.setBackground(Color.green);
+        heli.setOpaque(true);
         this.add(heli);
         this.heli_bouton = true;
 
@@ -131,6 +134,8 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
         for (JButton b: assEX) {
             b.addMouseListener(exploControl);
+            b.setBackground(colorAss);
+            b.setOpaque(true);
         }
 
         ArrayList<Joueur> js = modele.getJoueurs();
@@ -243,7 +248,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             this.add(jr);
         }
         this.heli_joueur = true;
-
+        modele.notifyObservers();
         repaint();
         this.doLayout();
     }
@@ -257,6 +262,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             GetArteFact getArt = new GetArteFact(modele,this);
             arte.addMouseListener(getArt);
             arte.setBackground(new Color(255,127,80));
+            arte.setOpaque(true);
             artefactes.add(art);
             this.add(arte);
         }
@@ -321,17 +327,17 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
     /** Ajouter le JBotton pour echanger les cles que joueurs courant possede. **/
     private void addEchangeBouton(Modele.Artefact cle){
-            JButton cleBouton = new JButton(cle.toString().toUpperCase());
-           // EchangeCle cleE = new EchangeCle(modele,this);
-            cleBouton.addMouseListener(this.cleEchange);
-            cleBouton.setBackground(new Color(255,250,210));
-            if(!this.cleCourant.contains(cleBouton)) {
-                this.cleCourant.add(cleBouton);
-                this.add(cleBouton);
+        JButton cleBouton = new JButton(cle.toString().toUpperCase());
+        // EchangeCle cleE = new EchangeCle(modele,this);
+        cleBouton.addMouseListener(this.cleEchange);
+        cleBouton.setBackground(new Color(255,250,210));
+        cleBouton.setOpaque(true);
+        if(!this.cleCourant.contains(cleBouton)) {
+            this.cleCourant.add(cleBouton);
+            this.add(cleBouton);
 
-            }
+        }
     }
-
     public boolean getEchange(){return cle_echange;}
 
     //Pour Messageur
@@ -431,7 +437,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
 
     @Override
     public void cleanNaJoueur() {
-        this.remove(deplacer);
+        this.add(deplacer);
         for (JButton b: joueurs) {
             this.remove(b);
         }

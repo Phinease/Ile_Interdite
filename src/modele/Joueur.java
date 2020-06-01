@@ -3,6 +3,9 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import jeuDeCartes.CarteCle;
+import jeuDeCartes.PaquetCle;
 import modele.Modele.Artefact;
 
 public class Joueur {
@@ -15,6 +18,7 @@ public class Joueur {
     public enum DirectionEx{leftup, leftdown, rightdown, rightup}
     public enum Jou{j1, j2, j3, j4};
     public enum Role{Joueur, Pilote, Ingenieur, Explorateur, Navigateur, Plongeur, Messageur};
+    private PaquetCle paquetCle=new PaquetCle();
 
     public Joueur(Modele m,int x,int y, Role c){
         this.modele = m;
@@ -57,7 +61,11 @@ public class Joueur {
     }
 
     public void getCle(int randomNbr){
-        if(randomNbr%6 < 3){
+        //Methode Jeu de Carte
+        CarteCle c=this.paquetCle.tirer();
+        if(c.getType()== CarteCle.CarteCleType.Find){
+            //Methode random
+        //if(randomNbr%6 < 3){
             Artefact acte = this.getPosition().getType();
             switch (acte) {
                 case air:
@@ -89,6 +97,9 @@ public class Joueur {
                     }
                     break;
             }
+        }
+        else if(c.getType()== CarteCle.CarteCleType.water){
+            this.position.evolue();
         }
     }
 

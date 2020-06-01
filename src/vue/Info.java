@@ -25,22 +25,24 @@ public class Info extends JPanel implements Observer{
         data = new Object[10][nbJoueur+1];
         names = new String[nbJoueur+1];
 
-        names[0] = "INFO";
-        data [0][0] = "INFOS";
-        data [1][0] = "NB ACT";
-        data [2][0] = "AIR";
-        data [3][0] = "EAU";
-        data [4][0] = "FEU";
-        data [5][0] = "TERRE";
-        data [6][0] = "CLE AIR";
-        data [7][0] = "CLE EAU";
+        names[0] = " INFO  ";
+        data [0][0] = "INFOS ";
+        data [1][0] = "NB ACT ";
+        data [2][0] = "AIR ";
+        data [3][0] = "EAU ";
+        data [4][0] = "FEU ";
+        data [5][0] = "TERRE ";
+        data [6][0] = "CLE AIR ";
+        data [7][0] = "CLE EAU ";
         data [8][0] = "CLE TERRE";
-        data [9][0] = "CLE FEU";
+        data [9][0] = "CLE FEU ";
+
+
 
         for (int i = 1; i < nbJoueur+1; i++) {
             int j = i-1;
-            names[i] = "Joueur " + (j+1);
-            data[0][i] = "JOUEUR " + (j+1);
+            names[i] = "  Joueur " + (j+1) ;
+            data[0][i] = " JOUEUR " + (j+1) ;
             data[1][i] = 0;
             for (int k = 2; k < 6; k++) {
                 data[k][i] = joueurs.get(j).getHasArt(Modele.Artefact.values()[k-2]);
