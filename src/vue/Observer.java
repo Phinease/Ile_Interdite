@@ -1,6 +1,7 @@
 package vue;
 
 interface Observer {
+    // Observer pour le jeu entière
     void update();
-    void end();
+    void end(Boolean b);
 }

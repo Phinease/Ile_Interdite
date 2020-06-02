@@ -1,14 +1,11 @@
 package jeuDeCartes;
 
-import modele.Modele;
-import modele.Zone;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class PaquetCle {
-    private int nb=0;//抽了几张牌
-    ArrayList<CarteCle> cartes=new ArrayList<>();//假设有100张牌，
+    private int nb=0;
+    ArrayList<CarteCle> cartes=new ArrayList<>();
     public PaquetCle(){
 
         for(int i=0;i<100;i++){
@@ -20,7 +17,7 @@ public class PaquetCle {
                 this.cartes.add(new CarteCle(2));
             }
         }
-        ArrayList<CarteCle> newCartes=new ArrayList<CarteCle>();
+        ArrayList<CarteCle> newCartes=new ArrayList<>();
         while(newCartes.size()<this.cartes.size()){
             Random random=new Random();
             CarteCle c=this.cartes.get(random.nextInt(cartes.size()));
@@ -30,8 +27,8 @@ public class PaquetCle {
         }
         this.cartes=newCartes;
     }
-    public void melanger(){//洗牌
-        ArrayList<CarteCle> newCartes=new ArrayList<CarteCle>();
+    public void melanger(){
+        ArrayList<CarteCle> newCartes=new ArrayList<>();
         while(newCartes.size()<this.cartes.size()){
             Random random=new Random();
             CarteCle c=this.cartes.get(random.nextInt(cartes.size()));
@@ -39,6 +36,7 @@ public class PaquetCle {
                 newCartes.add(c);
             }
         }
+        System.out.println("Paquet Cle a bien melangé ！");
         this.cartes=newCartes;
     }
     public CarteCle tirer(){
@@ -52,6 +50,7 @@ public class PaquetCle {
             this.melanger();
             this.nb=0;
         }
+        System.out.println("Tirer: resultat est "+get.getType());
         return get;
     }
 

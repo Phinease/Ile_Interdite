@@ -7,17 +7,20 @@ import vue.Vue;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Assecher extends Controleur {
+public class Assecher implements MouseListener {
+    protected final Modele modele;
     protected final Commandes commandes;
     private int nbrAss = 0;
 
     public Assecher(Modele m, Commandes c){
-        super(m);
+        this.modele = m;
         this.commandes = c;
     }
 
     @Override
+    /**Ajouter ou enlever des boutons ainsi que activer l'action assecher du zones choisi**/
     public void mouseClicked(MouseEvent e) {
         if(commandes.getAssBool()){
             commandes.addAssecher();
@@ -28,7 +31,7 @@ public class Assecher extends Controleur {
         }else {
             boolean isIngenieur = (this.modele.getJoueurCourant().getRole() == Joueur.Role.Ingenieur);
             JButton b = (JButton)e.getSource();
-           // System.out.println("Ass "+b.getText());
+
             boolean asse = false;
             switch (b.getText()){
                 case "UP":
@@ -69,6 +72,13 @@ public class Assecher extends Controleur {
         }
         this.commandes.myJFrame().requestFocus();
     }
-    
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) { }
+
+
 }
 

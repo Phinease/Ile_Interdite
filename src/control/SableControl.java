@@ -17,6 +17,7 @@ public class SableControl extends Assecher {
 
 
     @Override
+    /**Active l'action sac de sable**/
     public void mouseClicked(MouseEvent e) {
         this.modele.activeSable();
         this.commandes.myJFrame().requestFocus();

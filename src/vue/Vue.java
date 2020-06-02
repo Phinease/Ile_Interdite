@@ -8,23 +8,34 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Vue extends JFrame implements Observer{
+    // La combinaison de la grille et de la commande et de la frame.
     private final Grille grille;
     public Commandes commandes;
     private final Info info;
+   // private final JFrame jFrame;
 
     public Vue(Modele modele) throws IOException {
+        // Addition de l'Observer
         modele.addObserver(this);
+
+        // Initialisation de JFrame
         this.setTitle("L'île interdite");
+        this.setPreferredSize(new Dimension(1120,920));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
         this.setLayout(new BorderLayout());
 
+        //Initialisation de commandes, grille, et info
         KeyControl kc = new KeyControl(modele);
 
         commandes = new Commandes(modele,kc,this);
@@ -35,27 +46,31 @@ public class Vue extends JFrame implements Observer{
 
         info = new Info(modele);
         this.add(info,BorderLayout.EAST);
+
+        // Addition de KeyControleur
         this.addKeyListener(kc);
         this.grille.addKeyListener(kc);
         this.commandes.addKeyListener(kc);
         this.info.addKeyListener(kc);
 
 
-        this.setPreferredSize(new Dimension(1100,920));
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
     }
 
+    public JFrame getjFrame(){
+        return this;
+    }
+
+    /** Afficher la screen end et Supprimer les autres JPanal**/
     public void endGameScreen(Boolean win) {
+
         this.remove(grille);
         this.remove(info);
         this.remove(commandes);
 
         JLabel label = new JLabel("");
-        if (win){
+        if(win){
             label.setText("GAME WIN");
-        } else {
+        }else {
             label.setText("GAME OVER");
         }
         label.setFont(new Font("Verdana", Font.BOLD, 20));
@@ -78,19 +93,23 @@ public class Vue extends JFrame implements Observer{
     @Override
     public void update() {}
     @Override
-    public void end() {
-        endGameScreen();
-    }
+    // Pour l'appelle dans le Modele
+    public void end(Boolean b) { endGameScreen(b); }
 }
 
 
 class Grille extends JPanel implements MouseListener, NaObserver {
+    /**
+    La classe pour l'interface principale de jeu.
+     **/
     private final Modele modele;
+    // La taille de la carte de l'île
     private final static int TAILLE = 30;
     private boolean joueurChoisi = false;
     private Zone posChoisi;
     private final Commandes commandes;
 
+    // L'images pour chaque componante
     private BufferedImage terre;
     private BufferedImage eau;
     private BufferedImage heli;
@@ -99,11 +118,13 @@ class Grille extends JPanel implements MouseListener, NaObserver {
     private BufferedImage innonde;
     private BufferedImage submerge;
 
+    // L'image de chaque joueurs
     private BufferedImage joueur1;
     private BufferedImage joueur2;
     private BufferedImage joueur3;
     private BufferedImage joueur4;
 
+    // L'image de chaque artefacts
     private BufferedImage artefact1;
     private BufferedImage artefact2;
     private BufferedImage artefact3;
@@ -115,16 +136,16 @@ class Grille extends JPanel implements MouseListener, NaObserver {
         modele.addNaObserver(this);
         this.commandes =commandes;
 
-        Dimension dimension = new Dimension(
-                TAILLE * Modele.LARGEUR, TAILLE * (Modele.HAUTEUR + 5));
+        // La confuguration de Grille
+        Dimension dimension = new Dimension(TAILLE * Modele.LARGEUR, TAILLE * (Modele.HAUTEUR + 5));
         this.setPreferredSize(dimension);
         addMouseListener(this);
         this.setFont(new Font("Verdana", Font.BOLD, 12));
-
         init();
     }
 
     private void init() throws IOException {
+        // Load les images
         terre = ImageIO.read(new File("materials/terre.png"));
         eau = ImageIO.read(new File("materials/water.png"));
         heli = ImageIO.read(new File("materials/heli.png"));
@@ -150,6 +171,8 @@ class Grille extends JPanel implements MouseListener, NaObserver {
     public void cleanNaJoueur() {}
     @Override
     public void overNa() {}
+
+    /** Pour indique le joueur choisi dans la grille (rectangles noir)**/
     @Override
     public void chosenNaJoueur(Joueur.Jou j) {
         Zone pos = modele.getJoueurs().get(0).getPosition();
@@ -171,6 +194,8 @@ class Grille extends JPanel implements MouseListener, NaObserver {
         posChoisi = pos;
     }
 
+    /** Dessiner tous les joueurs et les componants de la cartes et la joueur courant.
+     *  Même si le joueur choisi.**/
     public void paintComponent(Graphics g) {
         super.repaint();
         for (int i = 1; i <= Modele.LARGEUR; i++) {
@@ -196,6 +221,7 @@ class Grille extends JPanel implements MouseListener, NaObserver {
         paintAnnexe(g);
     }
 
+    /** Dessiner l'annexe de tous les composants de la grille**/
     private void paintAnnexe(Graphics g) {
         String text;
         BufferedImage[] zones = {air, eau, terre, feu};
@@ -257,6 +283,7 @@ class Grille extends JPanel implements MouseListener, NaObserver {
         }
     }
 
+    /** Dessiner une zone de la carte**/
     private void paint(Graphics g, Zone c, int x, int y) {
         switch (c.getType()) {
             case air:
@@ -286,6 +313,10 @@ class Grille extends JPanel implements MouseListener, NaObserver {
     }
 
     @Override
+    /** Pour l'utilisateur de choisir la place à deplacer pour le pilote
+     * ou pour navigateur à déplacer les autres
+     * Pour choisir en cliquant le zone destinateur de l'action sac de sable et l'action helicoptere
+     **/
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             int x = e.getX()/TAILLE+1;
@@ -298,12 +329,14 @@ class Grille extends JPanel implements MouseListener, NaObserver {
             }
             joueurChoisi = false;
 
+            //action sac de sable. Asshecher la zone choisi et enlever le bouton
             if(this.modele.getSable()){
                 if(this.modele.assecherSable(x,y)){
                     this.commandes.removeSable();
                 }
             }
 
+            //action helicoptere. Deplacer le joueur courant et le joueur eventuel choisi et enlever le bouton
             if(this.modele.getHeli()&&this.commandes.heliJoueurChosen()){
                 if(this.modele.deplaceHeli(x,y)){
                     this.commandes.removeHeli();

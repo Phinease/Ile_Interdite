@@ -22,17 +22,21 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     private boolean sable_bouton;
     private boolean heli_bouton;
     private boolean heli_joueur = false;
-    private static final ArrayList<String> artefactes = new ArrayList<>();
-    private ArrayList<JButton > cleCourant = new ArrayList<>();
-    private ArrayList<JButton> autreJoueur = new ArrayList<>();
-    private ArrayList<JButton> heliJoueur = new ArrayList<>();
 
 
+    private final ArrayList<String> artefactes = new ArrayList<>();
+    private final ArrayList<JButton> cleCourant = new ArrayList<>();
+    private final ArrayList<JButton> autreJoueur = new ArrayList<>();
+    private final ArrayList<JButton> heliJoueur = new ArrayList<>();
+
+
+    // Les clés de commandes basiques
     JButton next_tour = new JButton("FIN DU TOUR");
     JButton echange = new JButton("ECHANGE");
     JButton cancel = new JButton("CANCEL");
     JButton assecher = new JButton("ASSECHER");
 
+    // Les clés de directions d'assécher
     JButton up = new JButton("UP");
     JButton down = new JButton("DOWN");
     JButton left = new JButton("LEFT");
@@ -40,57 +44,62 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     JButton mid = new JButton("MID");
     JButton[] directions = {up, down, left, right, mid};
 
+    // Les clés de direction movement pour l'explorateur
     JButton upright = new JButton("UP RIGHT");
     JButton downright = new JButton("DOWN RIGHT");
     JButton upleft = new JButton("UP LEFT");
     JButton downleft = new JButton("DOWN LEFT");
     JButton[] directionsEx = {upleft, downright, upright, downleft};
 
+    // Les clés de direction d'assécher pour l'explorateur
     JButton assUR = new JButton("UR");
     JButton assDR = new JButton("DR");
     JButton assUL = new JButton("UL");
     JButton assDL = new JButton("DL");
     JButton[] assEX = {assUR, assDR, assUL, assDL};
 
+    // Les clés de Deplacerment de joueur pour le navigateur
     JButton deplacer = new JButton("DEPLACER");
-    JButton joueur0 = new JButton("JOUEUR 0");;
-    JButton joueur1 = new JButton("JOUEUR 1");;
-    JButton joueur2 = new JButton("JOUEUR 2");;
+    JButton joueur0 = new JButton("JOUEUR 0");
+    JButton joueur1 = new JButton("JOUEUR 1");
+    JButton joueur2 = new JButton("JOUEUR 2");
     JButton[] joueurs = {joueur0, joueur1, joueur2};
+
 
     JButton sacDeSable = new JButton("SABLE");
     JButton heli = new JButton("HELICOPTERE");
+    JButton heli_me = new JButton("JUST ME");
 
-
-    Controleur ass;
+    // Controleur pour les joueurs différentes
+    Assecher ass;
     KeyControl kc;
-    Controleur finDeTour;
+    FindeTour finDeTour;
     EchangeCle cleEchange;
     ExControl exploControl;
     NaControl naviControl;
-    SableControl sableControl;//31/05
+    SableControl sableControl;
     HeliControl heliControl;
-
 
     public Commandes(Modele m,KeyControl kc, Vue vue) {
         this.vue = vue;
         modele = m;
+        // Addition dans l'observeur
         modele.addExObserver(this);
         modele.addNaObserver(this);
 
-        this.ass = new Assecher(m,this);
+        // Initiation de Controleurs
+        ass = new Assecher(m,this);
         this.kc = kc;
-        this.cleEchange = new EchangeCle(modele,this);
-        this.finDeTour = new FindeTour(modele,this);
-        this.exploControl = new ExControl(modele,this);
-        this.naviControl = new NaControl(modele,this);
-        this.sableControl = new SableControl(modele,this);//31/05
-        this.heliControl = new HeliControl(modele,this);
+        cleEchange = new EchangeCle(modele,this);
+        finDeTour = new FindeTour(modele,this);
+        exploControl = new ExControl(modele,this);
+        naviControl = new NaControl(modele,this);
+        sableControl = new SableControl(modele,this);
+        heliControl = new HeliControl(modele,this);
 
-
+        // Addition de KeyListener et de MouseListener et Couleur de Button
         next_tour.addKeyListener(kc);
         next_tour.addMouseListener(finDeTour);
-
         assecher.addMouseListener(ass);
         cancel.addMouseListener(ass);
 
@@ -101,13 +110,11 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         assecher.setOpaque(true);
         for (JButton b: directions) {
             b.addMouseListener(ass);
-
             b.setBackground(colorAss);
             b.setOpaque(true);
         }
         this.add(next_tour);
         this.add(assecher);
-
 
         echange.addMouseListener(this.cleEchange);
         echange.setBackground(new Color(255,250,210));
@@ -117,6 +124,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         this.addArtefacts();
 
         sacDeSable.addMouseListener(sableControl);
+        sacDeSable.setBackground(Color.green);
         this.add(sacDeSable);
         this.sable_bouton = true;
 
@@ -125,6 +133,10 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         heli.setOpaque(true);
         this.add(heli);
         this.heli_bouton = true;
+
+        heli_me.addMouseListener(heliControl);
+        heli_me.setBackground(Color.green);
+
 
 
         for (JButton b: directionsEx) {
@@ -137,6 +149,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             b.setOpaque(true);
         }
 
+        // Button pour Les autres joueurs pour le navigateur
         ArrayList<Joueur> js = modele.getJoueurs();
         int count = 0;
         for (int i = 0; i < js.size(); i++) {
@@ -148,16 +161,16 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
                 count += 1;
             }
         }
-
         for (JButton b: joueurs) {
             b.addMouseListener(naviControl);
         }
         deplacer.addMouseListener(naviControl);
 
+        // SetLayout pour les commandes
         this.setLayout(new GridLayout());
     }
 
-    public JFrame myJFrame(){return this.vue;}
+    public JFrame myJFrame(){return vue.getjFrame();}
 
 
     // Assecher Commandes
@@ -215,7 +228,8 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         this.doLayout();
     }
 
-    //sac de sable
+    //Sac de sable
+   /**enlever le bouton si l'action a deja utilise une fois**/
     public void removeSable(){
         this.remove(sacDeSable);
         this.sable_bouton = false;
@@ -224,20 +238,22 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     }
 
     //Helicoptere
+    /**enlever les boutons si l'action a deja utilise une fois**/
     public void removeHeli(){
        for(JButton b : heliJoueur){
            this.remove(b);
        }
        heli_joueur = false;
 
-
-        modele.notifyObservers();
-        repaint();
-        this.doLayout();
-
+       modele.notifyObservers();
+       repaint();
+       this.doLayout();
 
     }
 
+    /**Si l'action est activer, ajouter les boutons
+     * pour les joueurs dans le meme zone que joueur courant
+     * **/
     public void heliJoueurBouton(){
         this.remove(heli);
         this.heli_bouton = false;
@@ -249,15 +265,25 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             this.heliJoueur.add(jr);
             this.add(jr);
         }
+
+        if(joueurs.size() != 0) {
+            //cliquer sur heli_me si courant veut deplacer tout seul meme si il y a des joueurs dans son zone
+            this.heliJoueur.add(heli_me);
+            this.add(heli_me);
+        }
+
         this.heli_joueur = true;
         modele.notifyObservers();
         repaint();
         this.doLayout();
     }
 
+    /**return true si les boutons des joueurs pour l'action helicoptere est ajoute**/
     public boolean heliJoueurChosen(){return heli_joueur;}
 
     // Artefacte Commandes
+    /**Ajouter le bouton d'artefacet du nom donne en parametre
+     * si cet artefact n'est jamais apparu avant**/
     private void addArte(String art){
         if(!artefactes.contains(art)){
             JButton arte = new JButton(art);
@@ -270,6 +296,7 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         }
     }
 
+    /**Ajouter les artefacts apparu dans le modele**/
     public void addArtefacts(){
         ArrayList<Modele.Artefact> artfacts = this.modele.arteApparu();
 
@@ -288,28 +315,27 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     }
 
     // Cles Echange Commandes
-    /**
-     * Ajouter l'action cleEchange
-     * si le joueur courant a au moins une cle
-     **/
-    //31/05
+    /**Ajouter l'action cleEchange si activeEchanege == true**/
     public void addClesEchange(){
         Joueur courant = this.modele.getJoueurCourant();
         ArrayList<Artefact> clesCourant = courant.mesCles();
+        //Si les conditions ne sont pas satisfait
         if(!this.modele.activeEchange()){
             this.resetEchange();
             return;
         }
 
         if(cle_echange){
+            //Si le bouton echange est apparu, un clique surlequel nous dirige a choisir le cle a echanger
             this.remove(echange);
             this.cle_echange = false;
             for (Modele.Artefact cle : clesCourant) {
                 this.addEchangeBouton(cle);
             }
             this.cles_bouton = true;
-            // System.out.println(this.cles_bouton+"................");
-        }else if((courant.getRole() == Joueur.Role.Messageur) && (this.cles_bouton == true)){
+        }else if((courant.getRole() == Joueur.Role.Messageur) && this.cles_bouton){
+            //Si joueur courant est messageur et les boutons de cle apparu,
+            // on ajouter les boutons pour choisir un joueur a qui on donne le cle
             for(JButton b : this.cleCourant){
                 this.remove(b);
             }
@@ -317,7 +343,6 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             this.addJoueursBouton(cleEchange);
 
         }else {
-            System.out.println("resertechge");
             this.resetEchange();
         }
 
@@ -330,7 +355,6 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
     /** Ajouter le JBotton pour echanger les cles que joueurs courant possede. **/
     private void addEchangeBouton(Modele.Artefact cle){
         JButton cleBouton = new JButton(cle.toString().toUpperCase());
-        // EchangeCle cleE = new EchangeCle(modele,this);
         cleBouton.addMouseListener(this.cleEchange);
         cleBouton.setBackground(new Color(255,250,210));
         cleBouton.setOpaque(true);
@@ -356,8 +380,6 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
             }
         }
     }
-
-    /**Si les bputpns de cles sont clique, ajouter les joueurs bouton**/
 
     /** Reset pour l'echange des cle **/
     public void resetEchange(){

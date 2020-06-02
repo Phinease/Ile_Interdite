@@ -5,16 +5,20 @@ import vue.Commandes;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class HeliControl extends Controleur {
+public class HeliControl implements MouseListener {
+    private final Modele modele;
     protected final Commandes commandes;
 
     public HeliControl(Modele modele, Commandes commandes) {
-        super(modele);
+        this.modele = modele;
         this.commandes = commandes;
     }
 
     @Override
+    /**active l'action helicoptere et choisir un joueur sur le meme zone que joueur courant
+     * pour deplacer ensemble avec courant apres**/
     public void mouseClicked(MouseEvent e) {
         this.modele.activeHeli();
 
@@ -35,6 +39,8 @@ public class HeliControl extends Controleur {
             case "AVEC JOUEUR 4":
                 this.modele.addHeliJoueur(3);
                 break;
+            case "JUST ME" :
+                break;
             default:
                 break;
         }
@@ -43,4 +49,10 @@ public class HeliControl extends Controleur {
         modele.notifyObservers();
 
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) { }
 }

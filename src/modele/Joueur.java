@@ -1,6 +1,5 @@
 package modele;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,18 +11,18 @@ public class Joueur {
     private int nbrAction = 0;
     protected Zone position;
     protected Modele modele;
-    protected Role role = Role.Joueur;
-    protected HashMap<Artefact,Integer> cles = new HashMap<Artefact,Integer>();
+    protected Role role;
+    protected HashMap<Artefact,Integer> cles = new HashMap<>();
     protected ArrayList<Artefact> artefacts = new ArrayList<>();
     public enum DirectionEx{leftup, leftdown, rightdown, rightup}
-    public enum Jou{j1, j2, j3, j4};
-    public enum Role{Joueur, Pilote, Ingenieur, Explorateur, Navigateur, Plongeur, Messageur};
-    private PaquetCle paquetCle=new PaquetCle();
+    public enum Jou{j1, j2, j3, j4}
+    public enum Role{Joueur, Pilote, Ingenieur, Explorateur, Navigateur, Plongeur, Messageur}
+    private final PaquetCle paquetCle=new PaquetCle();
 
     public Joueur(Modele m,int x,int y, Role c){
         this.modele = m;
         this.role = c;
-        while(modele.zones[x][y].getStatus() != 0){
+        while(modele.zones[x][y].getStatus() == 2){
             x += 1;
         }
         position = modele.getZone(x,y);
@@ -140,6 +139,7 @@ public class Joueur {
     }
 
     //Artefact
+    /**recupere l'artefacet de type donne en parametre**/
     public boolean getArteFact( Modele.Artefact artefact) {
         if (this.cles.get(artefact) == 4 && (!artefacts.contains(artefact))) {
             artefacts.add(artefact);

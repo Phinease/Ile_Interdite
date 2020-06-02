@@ -31,14 +31,11 @@ public class Zone {
             this.etat = new Etat_Inondee();
         }else if (etat instanceof Etat_Inondee){
             this.etat = new Etat_Submerge();
-        }else{
-            return;
         }
     }
 
     public boolean assecher(){
         if(etat instanceof Etat_Inondee){
-            //System.out.println("zone ass");
             etat = new Etat_Normal();
             return true;
         }

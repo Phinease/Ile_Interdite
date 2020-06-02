@@ -20,7 +20,7 @@ public class Paquet {
         }
     }
     public void melanger(){//洗牌
-        ArrayList<CarteZone> newCartes=new ArrayList<CarteZone>();
+        ArrayList<CarteZone> newCartes=new ArrayList<>();
         while(newCartes.size()<cartes.size()){
             Random random=new Random();
             CarteZone c=cartes.get(random.nextInt(cartes.size()));
@@ -28,6 +28,7 @@ public class Paquet {
                 newCartes.add(c);
             }
         }
+        System.out.println("Paquet Inondee a bien melangé ！");
         this.cartes=newCartes;
     }
     public CarteZone tirer(){//抽出第一张 牌放到defausse 返回一个要被阉掉的zone
@@ -41,12 +42,13 @@ public class Paquet {
             this.melanger();
             this.nb=0;
         }
+        System.out.println("Tirer carte: Inondee x="+get.getX()+" y= "+get.getY());
         return get;
     }
 
     public static void main(String[] args) {
         Modele modele =new Modele();
-        Paquet p=new Paquet(modele.getZones(),modele.LARGEUR,modele.HAUTEUR);
+        Paquet p=new Paquet(modele.getZones(), Modele.LARGEUR, Modele.HAUTEUR);
         p.melanger();
         CarteZone z=p.tirer();
         System.out.println(z.getX()+" "+z.getY());

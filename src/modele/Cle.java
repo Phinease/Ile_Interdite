@@ -3,8 +3,16 @@ package modele;
 import  modele.Modele.Artefact;
 
 abstract class Cle {
+    /**
+     * notre modele ont 4 type de cle et chaque type ont 4 cle au total
+     * **/
     protected final int nbrMax = 4 ;
+
+    /**ajouter des cle si il reste des cle non apparu**/
     abstract boolean addCle();
+
+    /**return le type de cle si tous les cles de ce type sont apparu,
+     * sinon return Artefact.normal **/
     abstract Artefact allKey();
 }
 

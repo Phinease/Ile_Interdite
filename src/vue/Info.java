@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Info extends JPanel implements Observer{
+    /*
+    La classe pour afficher les infos de joueurs
+     */
     JTable table;
     String[] names;
     Object[][] data;
@@ -25,6 +28,7 @@ public class Info extends JPanel implements Observer{
         data = new Object[10][nbJoueur+1];
         names = new String[nbJoueur+1];
 
+        // Les noms de Colonnes
         names[0] = " INFO  ";
         data [0][0] = "INFOS ";
         data [1][0] = "NB ACT ";
@@ -38,7 +42,7 @@ public class Info extends JPanel implements Observer{
         data [9][0] = "CLE FEU ";
 
 
-
+        // Initialisation de l'info de joueurs par les données de modèle et de Joueur
         for (int i = 1; i < nbJoueur+1; i++) {
             int j = i-1;
             names[i] = "  Joueur " + (j+1) ;
@@ -54,6 +58,7 @@ public class Info extends JPanel implements Observer{
         }
         data[1][this.modele.getJoueurCourantIdx()+1] = this.modele.getJoueurCourant().restNbr();
 
+        // Configuration de ce tableau
         table = new JTable(data,names);
         table.setFont(new Font("Verdana", Font.BOLD, 12));
         this.add(table);
@@ -66,6 +71,7 @@ public class Info extends JPanel implements Observer{
 
     @Override
     public void update() {
+        // Même chose que l'initialisation
         for (int i = 1; i < nbJoueur+1; i++) {
             int j = i-1;
             data[1][i] = 0;
@@ -83,7 +89,7 @@ public class Info extends JPanel implements Observer{
     }
 
     @Override
-    public void end() {}
+    public void end(Boolean b) {}
 }
 
 

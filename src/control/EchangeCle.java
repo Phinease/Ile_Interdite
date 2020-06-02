@@ -6,16 +6,20 @@ import vue.Commandes;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class EchangeCle extends Controleur {
+public class EchangeCle implements MouseListener {
+    private final Modele modele;
     private final Commandes commandes;
     private Modele.Artefact cleChoson = Modele.Artefact.normal;
 
     public EchangeCle(Modele modele,Commandes commandes) {
-        super(modele);
+        this.modele = modele;
         this.commandes = commandes;
     }
 
+    /**Ajouter ou enlever des boutons ainsi que activer l'action echange cle
+     * choisir le joueur pour donner le cle si le joueur courant est messageur**/
     public void mouseClicked(MouseEvent e) {
         JButton b = (JButton)e.getSource();
         if(commandes.getEchange()){
@@ -67,11 +71,17 @@ public class EchangeCle extends Controleur {
                 default:
                     break;
             }
-            commandes.addClesEchange();//resetEchange();
+            commandes.addClesEchange();
             modele.notifyObservers();
         }
         this.commandes.myJFrame().requestFocus();
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) { }
 
 
 }

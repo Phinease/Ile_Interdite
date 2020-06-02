@@ -37,7 +37,7 @@ public class Modele extends vue.Observable {
         }
         init();
         for (int i = 0; i < 24; i++) {
-            findeTour(3);
+            // findeTour(3);
         }
     }
 
@@ -105,7 +105,7 @@ public class Modele extends vue.Observable {
                 Role.Explorateur));
 
         //init Paquet
-        this.PaquetZone=new Paquet(this.zones,this.LARGEUR,this.HAUTEUR);
+        this.PaquetZone=new Paquet(this.zones, LARGEUR, HAUTEUR);
         this.PaquetZone.melanger();
     }
 
@@ -312,7 +312,10 @@ public class Modele extends vue.Observable {
         return true;
     }
 
-    //precondition sacDeSable = true
+    /**Action speciale: sac de sable, return true si la zone est asseche.
+     * x,y coordonee de la zone choisi a assecher
+     * precondition: sableActived == true
+     * **/
     public boolean assecherSable(int x, int y){
         if(this.zones[x][y].getStatus() == 1){
             this.zones[x][y].assecher();
@@ -326,12 +329,16 @@ public class Modele extends vue.Observable {
 
 
     //31/05
-    /**Action sac de sable: this.sacDeSable = true si le bouton sacDeSable a ete clicke  **/
+    /**activeSable: this.sableActived = true
+     * si le bouton sacDeSable a ete clique  **/
     public void activeSable (){this.sableActived = true;}
     public boolean getSable(){return this.sableActived;}
 
 
-    /**Action Helicoptere**/
+    /**activeHeli:
+     * heliActived = true si le bouton helicoptere a ete clique
+     * et ajouter le joueur courant dans la liste de joueur a deplacer
+     * **/
     public void activeHeli(){
         this.heliActived = true;
         this.heliJoueurIdx.add(this.joueurIdx);
@@ -339,7 +346,9 @@ public class Modele extends vue.Observable {
     public boolean getHeli(){return this.heliActived;}
     public void addHeliJoueur(int idx){this.heliJoueurIdx.add(idx);}
 
-    /**Action special helicoptere**/
+    /**Action special helicoptere
+     * deplacer joueur courant pour n'importe quel zone non submergee
+     * eventuellement avec un autre joueur dans la meme zone**/
     public boolean deplaceHeli(int x, int y){
         Zone z = this.getZone(x,y);
         if(z.nonSubmerge()) {
@@ -378,8 +387,9 @@ public class Modele extends vue.Observable {
     }
 
     //30/05
-   /** return true si il existe au moins un joueurs avec qui le joueurs courant peut echange une cle
+   /** return true si 1)il existe au moins un joueurs avec qui le joueurs courant peut echange une cle
     * ou si le joueur courant est un messageur
+    * et si 2)le joueur courant possede des cles et il lui reste des nbr d'action
     * **/
    public boolean activeEchange(){
        ArrayList<Integer> js = joueursMemeZone();
@@ -389,6 +399,8 @@ public class Modele extends vue.Observable {
    }
 
 
+   /**echange le cle donne en parametre avec le joueur dans le meme zone que courant
+    * si il y a plusieurs joueurs dans le meme zone, on echange le cle a un joueur aleatoirement**/
     public void cleEchange(Artefact cle){
         ArrayList<Integer> js = joueursMemeZone();
         Joueur courant = getJoueurCourant();
@@ -404,7 +416,7 @@ public class Modele extends vue.Observable {
     }
 
 //30/05
-    /**Cle Echange pour Messageur**/
+    /**Cle Echange pour Messageur : donner le cle au joueur dans les parametre**/
     public void cleEchangeMessageur(int idxJoueur, Artefact cle){
         Joueur courant = this.getJoueurCourant();
         if(courant.getRole() == Joueur.Role.Messageur && this.activeEchange()){
@@ -479,6 +491,8 @@ public class Modele extends vue.Observable {
         End();
     }
 
+    /**Si tous les cles pour recuperer un artefacte est apparu,alors cet artefacte est apparu
+     * return les artefact apparu pour ajouter les boutons correpondants apres**/
     public ArrayList<Artefact> arteApparu(){
         ArrayList<Artefact> arts= new ArrayList<>();
         ArrayList<Cle> cles= new ArrayList<>();
@@ -503,11 +517,19 @@ public class Modele extends vue.Observable {
         return nbT == 4;
     }
 
-    public boolean gameEnd(){
+
+    public boolean estMort(){//true->要死
         for(Joueur j:joueurs){
             if(!j.position.nonSubmerge()){
+                System.out.println("MORT");
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean win(){
+        for(Joueur j:joueurs){
             if(j.position!=zones[heli][heli]){
                 return false;
             }
@@ -516,8 +538,14 @@ public class Modele extends vue.Observable {
     }
 
     public void End(){
-        checkEnd(gameEnd());
+        if(estMort()){
+            checkEnd(false);
+        }
+        else if(win()){
+            checkEnd(true);
+        }
     }
+
 
     public Zone[][] getZones() {
         return zones;

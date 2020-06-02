@@ -17,6 +17,7 @@ public class KeyControl implements KeyListener {
     }
 
     @Override
+    /**deplacer le joueur en appuyant sur up down left ou right**/
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
