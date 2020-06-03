@@ -8,7 +8,7 @@ import modele.Zone;
 
 //pqauet carteZone
 public class Paquet {
-    private int nb=0;//抽了几张牌
+    private int nb=0;//combien de cartes est tirée
     ArrayList<CarteZone>cartes;
 
     public Paquet(Zone[][] zones,int LARGEUR,int HAUTEUR) {
@@ -19,7 +19,8 @@ public class Paquet {
             }
         }
     }
-    public void melanger(){//洗牌
+    /* mélanger le paquet */
+    public void melanger(){
         ArrayList<CarteZone> newCartes=new ArrayList<>();
         while(newCartes.size()<cartes.size()){
             Random random=new Random();
@@ -31,13 +32,18 @@ public class Paquet {
         System.out.println("Paquet Inondee a bien melangé ！");
         this.cartes=newCartes;
     }
-    public CarteZone tirer(){//抽出第一张 牌放到defausse 返回一个要被阉掉的zone
+    /* Objet:Chaque fois tirer le premier carte de paquet et mettre dans la defausse
+    * Realiser: 'nb'est represente combien de cartes est tirée alors la 'nb'-ième carte est la premier carte de paquet
+    *           quand les joueurs ont déjà tiré 'nb' fois le carte
+    *           Apres melanger le paquet, tirer le 'nb'-ième carte,
+    *           si c'est la derniere carte de paquet, remettre le 'nb'=0 et melanger le paquet  */
+    public CarteZone tirer(){
         CarteZone get;
         if(this.nb<this.cartes.size()-1){
             get=this.cartes.get(nb);
             this.nb++;
         }
-        else{//只剩下最后一张，取走最后一张并洗牌
+        else{
             get=this.cartes.get(this.cartes.size()-1);
             this.melanger();
             this.nb=0;
@@ -45,13 +51,13 @@ public class Paquet {
         System.out.println("Tirer carte: Inondee x="+get.getX()+" y= "+get.getY());
         return get;
     }
-
-    public static void main(String[] args) {
-        Modele modele =new Modele();
-        Paquet p=new Paquet(modele.getZones(), Modele.LARGEUR, Modele.HAUTEUR);
-        p.melanger();
-        CarteZone z=p.tirer();
-        System.out.println(z.getX()+" "+z.getY());
-    }
+//tester
+//    public static void main(String[] args) {
+//        Modele modele =new Modele();
+//        Paquet p=new Paquet(modele.getZones(), Modele.LARGEUR, Modele.HAUTEUR);
+//        p.melanger();
+//        CarteZone z=p.tirer();
+//        System.out.println(z.getX()+" "+z.getY());
+//    }
 }
 

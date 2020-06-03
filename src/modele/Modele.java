@@ -28,6 +28,8 @@ public class Modele extends vue.Observable {
     public enum Artefact{air, eau, terre, feu, normal}
     public Paquet PaquetZone;
 
+
+
     public Modele() {
         zones = new Zone[LARGEUR+2][HAUTEUR+2];
         for (int i = 0; i < LARGEUR+2 ; i++) {
@@ -40,7 +42,7 @@ public class Modele extends vue.Observable {
             // findeTour(3);
         }
     }
-
+    /*Initialiser le modèle avec les zones, les joueurs et les paquets */
     public void init() {
         for (int i = 0; i <= LARGEUR; i++) {
             for (int j = 0; j <= HAUTEUR; j++) {
@@ -109,6 +111,7 @@ public class Modele extends vue.Observable {
         this.PaquetZone.melanger();
     }
 
+    /*Spécialiser le mouvement de Pilote */
     public void deplacePilote(Zone e){
         Joueur courant = getJoueurCourant();
         if(courant.getRole() == Role.Pilote){
@@ -137,6 +140,7 @@ public class Modele extends vue.Observable {
         selected = true;
     }
 
+    /*Spécialiser le mouvement de Navigateur */
     public void deplaceNavi(Zone e){
         Joueur courant = getJoueurCourant();
         if(courant.getRole() == Role.Navigateur && selected && e.nonSubmerge()){
@@ -147,7 +151,7 @@ public class Modele extends vue.Observable {
         cleanJoueur();
         notifyObservers();
     }
-
+    /*Spécialiser le mouvement de Explorateur */
     public void moveExplorateur(Joueur.DirectionEx e){
         Joueur courant = getJoueurCourant();
         if(courant.testAction()){
@@ -183,6 +187,7 @@ public class Modele extends vue.Observable {
         notifyObservers();
     }
 
+    /*le mouvement de joueurs normales */
     public void move(KeyControl.Direction e){
         Joueur courant = getJoueurCourant();
         if(courant.testAction()) {
@@ -235,6 +240,7 @@ public class Modele extends vue.Observable {
     }
 
 
+    /*Déterminer si une zone est sortie du jeu  */
     public boolean horsJeu(Zone e){
         if(e.getX() < 0 || e.getX() > LARGEUR){
             return true;
@@ -243,6 +249,7 @@ public class Modele extends vue.Observable {
     }
 
 
+    /*Assecher les zones diagonales */
     public void assecherEx(Joueur.DirectionEx e){
         Joueur courant = getJoueurCourant();
         if(courant.testAction()) {
@@ -279,6 +286,7 @@ public class Modele extends vue.Observable {
     }
 
 
+    /*Assecher les zones autour(up,down,left,right) */
     public boolean assecher(KeyControl.Direction e){
         Joueur courant = getJoueurCourant();
         int x = courant.getPosition().getX();
@@ -415,7 +423,6 @@ public class Modele extends vue.Observable {
         notifyObservers();
     }
 
-//30/05
     /**Cle Echange pour Messageur : donner le cle au joueur dans les parametre**/
     public void cleEchangeMessageur(int idxJoueur, Artefact cle){
         Joueur courant = this.getJoueurCourant();
@@ -425,6 +432,9 @@ public class Modele extends vue.Observable {
         notifyObservers();
     }
 
+
+    /*Finir un tour de jeu, commencer un nouveau tour
+    * Tirer les cartes pour inonder des zones */
     public void findeTour(int nbr){
         //Inondee par random
 //        while (nbr>0){
@@ -509,6 +519,7 @@ public class Modele extends vue.Observable {
         return arts;
     }
 
+    /*Déterminer si les joueurs ont trouvé tous les quatre artefact */
     public boolean avoirTousArtefact(){
         int nbT=0;
         for (Joueur j:joueurs){
@@ -517,7 +528,8 @@ public class Modele extends vue.Observable {
         return nbT == 4;
     }
 
-
+    /*Déterminer s'il existe un joueur est mort
+    * le joueur va mourir s'il dans la zone submergée */
     public boolean estMort(){//true->要死
         for(Joueur j:joueurs){
             if(!j.position.nonSubmerge()){
@@ -528,6 +540,9 @@ public class Modele extends vue.Observable {
         return false;
     }
 
+    /*Déterminer si les joueurs gagnent le jeu
+     *le critère de gagner est avoir tous les quatre artefact et tous les joueurs
+     * sont dans la zone de héliport */
     public boolean win(){
         for(Joueur j:joueurs){
             if(j.position!=zones[heli][heli]){
@@ -537,6 +552,8 @@ public class Modele extends vue.Observable {
         return avoirTousArtefact();
     }
 
+    /* Si les joueurs gagnent le jeu, l'ecran va afficher GAME WIN et le jeu est terminéé
+     * si un des joueurs est mort, l'ecran va afficher GAME OVER et le jeu est terminéé  */
     public void End(){
         if(estMort()){
             checkEnd(false);

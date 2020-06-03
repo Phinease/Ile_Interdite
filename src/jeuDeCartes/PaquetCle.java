@@ -27,6 +27,8 @@ public class PaquetCle {
         }
         this.cartes=newCartes;
     }
+
+    /* Melanger le paquet */
     public void melanger(){
         ArrayList<CarteCle> newCartes=new ArrayList<>();
         while(newCartes.size()<this.cartes.size()){
@@ -39,6 +41,11 @@ public class PaquetCle {
         System.out.println("Paquet Cle a bien melangé ！");
         this.cartes=newCartes;
     }
+    /* Objet:Chaque fois tirer le premier carte de paquet et mettre dans la defausse
+     * Realiser: 'nb'est represente combien de cartes est tirée alors la 'nb'-ième carte est la premier carte de paquet
+     *           quand les joueurs ont déjà tiré 'nb' fois le carte
+     *           Apres melanger le paquet, tirer le 'nb'-ième carte,
+     *           si c'est la derniere carte de paquet, remettre le 'nb'=0 et melanger le paquet  */
     public CarteCle tirer(){
         CarteCle get;
         if(this.nb<this.cartes.size()-1){
@@ -53,11 +60,11 @@ public class PaquetCle {
         System.out.println("Tirer: resultat est "+get.getType());
         return get;
     }
-
-    public static void main(String[] args) {
-        PaquetCle p=new PaquetCle();
-        p.melanger();
-        CarteCle z=p.tirer();
-        System.out.println(z.getType());
-    }
+//tester
+//    public static void main(String[] args) {
+//        PaquetCle p=new PaquetCle();
+//        p.melanger();
+//        CarteCle z=p.tirer();
+//        System.out.println(z.getType());
+//    }
 }

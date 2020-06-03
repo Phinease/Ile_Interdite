@@ -26,6 +26,9 @@ public class Zone {
     public String toString(){return "posit: " + this.x+" " +this.y;}
 
 
+    /*Évoluer l'etat de zone
+    * Normal-->Ionondee
+    * Inondee-->Submergee  */
     public void evolue(){
         if(etat instanceof Etat_Normal){
             this.etat = new Etat_Inondee();
@@ -33,7 +36,7 @@ public class Zone {
             this.etat = new Etat_Submerge();
         }
     }
-
+    /* Mettre la zone en etat normal */
     public boolean assecher(){
         if(etat instanceof Etat_Inondee){
             etat = new Etat_Normal();

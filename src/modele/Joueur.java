@@ -35,10 +35,13 @@ public class Joueur {
     /**renvoyer le role de joueur**/
     public Role getRole(){ return this.role; }
 
+    /*Tester si le joueur peut encore faire le mouvement*/
     public boolean testAction(){
         return this.nbrAction<3;
     }
+    /* Re-mettre le nombre d'action égal 0*/
     protected void resetNbr(){this.nbrAction = 0;}
+    /* Return combien mouvement que le joueur peut faire */
     public int restNbr(){
         return 3-this.nbrAction;
     }
@@ -46,6 +49,7 @@ public class Joueur {
         nbrAction++;
     }
 
+    /*Spécialiser le Ingenieur par ajouter une fois de mouvement */
     public void prioriteInge(){
         if(this.role == Role.Ingenieur) {
             this.nbrAction--;
@@ -59,6 +63,9 @@ public class Joueur {
         return cles;
     }
 
+
+    /* Chercher le cle
+    * le joueur trouve le cle par tirer la carte */
     public void getCle(int randomNbr){
         //Methode Jeu de Carte
         CarteCle c=this.paquetCle.tirer();
