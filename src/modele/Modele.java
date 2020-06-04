@@ -70,41 +70,34 @@ public class Modele extends vue.Observable {
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
                 Role.Joueur));
         Iterator<Integer> it = hs.iterator();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             int x = it.next();
+            Role r;
             switch (x){
                 case 0:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Pilote));
+                    r = Role.Pilote;
                     break;
                 case 1:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Ingenieur));
+                    r = Role.Ingenieur;
                     break;
                 case 2:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Explorateur));
+                    r = Role.Explorateur;
                     break;
                 case 3:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Navigateur));
+                    r = Role.Navigateur;
                     break;
                 case 4:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Plongeur));
+                    r = Role.Plongeur;
                     break;
                 case 5:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Messageur));
+                    r = Role.Messageur;
                     break;
                 default:
-                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                            Role.Joueur));
+                    r = Role.Joueur;
                     break;
             }
+            joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1, r));
         }
-        joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                Role.Explorateur));
 
         //init Paquet
         this.PaquetZone=new Paquet(this.zones, LARGEUR, HAUTEUR);
