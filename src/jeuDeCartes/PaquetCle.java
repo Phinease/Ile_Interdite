@@ -7,7 +7,6 @@ public class PaquetCle {
     private int nb=0;
     ArrayList<CarteCle> cartes=new ArrayList<>();
     public PaquetCle(){
-
         for(int i=0;i<100;i++){
             if(i<30) {
                 this.cartes.add(new CarteCle(0));
@@ -41,6 +40,7 @@ public class PaquetCle {
         System.out.println("Paquet Cle a bien melangé ！");
         this.cartes=newCartes;
     }
+
     /* Objet:Chaque fois tirer le premier carte de paquet et mettre dans la defausse
      * Realiser: 'nb'est represente combien de cartes est tirée alors la 'nb'-ième carte est la premier carte de paquet
      *           quand les joueurs ont déjà tiré 'nb' fois le carte
@@ -60,6 +60,7 @@ public class PaquetCle {
         System.out.println("Tirer: resultat est "+get.getType());
         return get;
     }
+
 //tester
 //    public static void main(String[] args) {
 //        PaquetCle p=new PaquetCle();

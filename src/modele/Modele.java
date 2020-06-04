@@ -5,7 +5,6 @@ import jeuDeCartes.CarteZone;
 import jeuDeCartes.Paquet;
 import modele.Joueur.Role;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,18 +28,18 @@ public class Modele extends vue.Observable {
     public Paquet PaquetZone;
 
 
-
     public Modele() {
         zones = new Zone[LARGEUR+2][HAUTEUR+2];
         for (int i = 0; i < LARGEUR+2 ; i++) {
             for (int j = 0; j < HAUTEUR+2; j++) {
-                zones[i][j] = new Zone(this,i,j);
+                zones[i][j] = new Zone(i,j);
             }
         }
         init();
-        for (int i = 0; i < 24; i++) {
-            // findeTour(3);
-        }
+        // DEBUG CODE
+//        for (int i = 0; i < 24; i++) {
+//            findeTour(3);
+//        }
     }
     /*Initialiser le modèle avec les zones, les joueurs et les paquets */
     public void init() {
@@ -62,6 +61,7 @@ public class Modele extends vue.Observable {
                 }
             }
         }
+        // Random Joueur Par HashSet et RandomInt
         HashSet<Integer> hs = new HashSet<>();
         do {
             int tmp = random.nextInt(6);
@@ -114,7 +114,7 @@ public class Modele extends vue.Observable {
         notifyObservers();
     }
 
-
+    // Choisir Joueur pour la navigateur
     public void choisirNa(Joueur.Jou j){
         chosen(j);
         switch (j){
@@ -145,6 +145,7 @@ public class Modele extends vue.Observable {
         cleanJoueur();
         notifyObservers();
     }
+
     /*Spécialiser le mouvement de Explorateur */
     public void moveExplorateur(Joueur.DirectionEx e){
         Joueur courant = getJoueurCourant();
@@ -387,7 +388,6 @@ public class Modele extends vue.Observable {
         return js;
     }
 
-    //30/05
    /** return true si 1)il existe au moins un joueurs avec qui le joueurs courant peut echange une cle
     * ou si le joueur courant est un messageur
     * et si 2)le joueur courant possede des cles et il lui reste des nbr d'action
@@ -554,11 +554,6 @@ public class Modele extends vue.Observable {
         else if(win()){
             checkEnd(true);
         }
-    }
-
-
-    public Zone[][] getZones() {
-        return zones;
     }
 }
 

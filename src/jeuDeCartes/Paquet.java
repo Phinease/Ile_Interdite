@@ -1,15 +1,13 @@
 package jeuDeCartes;
 
-import modele.Modele;
 import java.util.ArrayList;
 import java.util.Random;
-import jeuDeCartes.CarteZone;
 import modele.Zone;
 
 //pqauet carteZone
 public class Paquet {
-    private int nb=0;//combien de cartes est tirée
-    ArrayList<CarteZone>cartes;
+    private int nb = 0;//combien de cartes est tirée
+    ArrayList<CarteZone> cartes;
 
     public Paquet(Zone[][] zones,int LARGEUR,int HAUTEUR) {
         this.cartes = new ArrayList<>();
@@ -19,6 +17,7 @@ public class Paquet {
             }
         }
     }
+
     /* mélanger le paquet */
     public void melanger(){
         ArrayList<CarteZone> newCartes=new ArrayList<>();
@@ -32,6 +31,7 @@ public class Paquet {
         System.out.println("Paquet Inondee a bien melangé ！");
         this.cartes=newCartes;
     }
+
     /* Objet:Chaque fois tirer le premier carte de paquet et mettre dans la defausse
     * Realiser: 'nb'est represente combien de cartes est tirée alors la 'nb'-ième carte est la premier carte de paquet
     *           quand les joueurs ont déjà tiré 'nb' fois le carte
@@ -51,6 +51,7 @@ public class Paquet {
         System.out.println("Tirer carte: Inondee x="+get.getX()+" y= "+get.getY());
         return get;
     }
+
 //tester
 //    public static void main(String[] args) {
 //        Modele modele =new Modele();

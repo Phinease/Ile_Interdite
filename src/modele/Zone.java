@@ -1,34 +1,29 @@
 package modele;
 
 public class Zone {
-    private Modele modele;
     private final int x;
     private final int y;
     protected Etat etat ;
     protected Modele.Artefact type = Modele.Artefact.normal;
 
 
-    public Zone(Modele m, int x, int y){
+    public Zone(int x, int y){
         this.x = x;
         this.y = y;
-        this.modele = m;
         this.etat = new Etat_Normal();
     }
 
     public void setType(Modele.Artefact type){
         this.type = type;
     }
-
     public Modele.Artefact getType(){
         return this.type;
     }
-
     public String toString(){return "posit: " + this.x+" " +this.y;}
 
-
     /*Évoluer l'etat de zone
-    * Normal-->Ionondee
-    * Inondee-->Submergee  */
+    * Normal --> Ionondee
+    * Inondee--> Submergee  */
     public void evolue(){
         if(etat instanceof Etat_Normal){
             this.etat = new Etat_Inondee();
@@ -48,9 +43,7 @@ public class Zone {
     public boolean nonSubmerge(){
         return !(this.etat instanceof Etat_Submerge);
     }
-
     public Etat getEtat(){return this.etat;}
-
     public int getStatus() {
         return this.etat.getStatus();
     }
@@ -60,7 +53,6 @@ public class Zone {
     public int getX() {
         return x;
     }
-
     public boolean equal(Zone z){
         return (z.getX() == this.x) && (z.getY() == this.y);
     }

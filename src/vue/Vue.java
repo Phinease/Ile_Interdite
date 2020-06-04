@@ -1,15 +1,12 @@
 package vue;
 
 import control.KeyControl;
-import control.SableControl;
 import modele.*;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -313,10 +310,10 @@ class Grille extends JPanel implements MouseListener, NaObserver {
     }
 
     @Override
-    /** Pour l'utilisateur de choisir la place à deplacer pour le pilote
+    /* Pour l'utilisateur de choisir la place à deplacer pour le pilote
      * ou pour navigateur à déplacer les autres
      * Pour choisir en cliquant le zone destinateur de l'action sac de sable et l'action helicoptere
-     **/
+     */
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             int x = e.getX()/TAILLE+1;
