@@ -37,9 +37,9 @@ public class Modele extends vue.Observable {
         }
         init();
         // DEBUG CODE
-//        for (int i = 0; i < 24; i++) {
-//            findeTour(3);
-//        }
+        for (int i = 0; i < 24; i++) {
+            findeTour(3);
+        }
     }
     /*Initialiser le modèle avec les zones, les joueurs et les paquets */
     public void init() {
@@ -523,7 +523,7 @@ public class Modele extends vue.Observable {
 
     /*Déterminer s'il existe un joueur est mort
     * le joueur va mourir s'il dans la zone submergée */
-    public boolean estMort(){//true->要死
+    public boolean estMort(){
         for(Joueur j:joueurs){
             if(!j.position.nonSubmerge()){
                 System.out.println("MORT");

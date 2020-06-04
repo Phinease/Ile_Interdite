@@ -59,7 +59,6 @@ public class Vue extends JFrame implements Observer{
 
     /** Afficher la screen end et Supprimer les autres JPanal**/
     public void endGameScreen(Boolean win) {
-
         this.remove(grille);
         this.remove(info);
         this.remove(commandes);
