@@ -66,12 +66,13 @@ public class Modele extends vue.Observable {
         do {
             int tmp = random.nextInt(6);
             hs.add(tmp);
-        } while (hs.size() != 4);
+        } while (hs.size() != 3);
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
                 Role.Joueur));
         Iterator<Integer> it = hs.iterator();
         for (int i = 0; i < 3; i++) {
             int x = it.next();
+            System.out.println(x);
             Role r;
             switch (x){
                 case 0:
@@ -235,10 +236,10 @@ public class Modele extends vue.Observable {
 
     /*Déterminer si une zone est sortie du jeu  */
     public boolean horsJeu(Zone e){
-        if(e.getX() < 0 || e.getX() > LARGEUR){
+        if(e.getX() < 1 || e.getX() > LARGEUR){
             return true;
         }
-        return e.getY() < 0 || e.getY() > HAUTEUR;
+        return e.getY() < 1 || e.getY() > HAUTEUR;
     }
 
 
