@@ -9,15 +9,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GetArteFact implements MouseListener {
-    private Modele modele;
-    private Commandes commandes;
+    private final Modele modele;
+    private final Commandes commandes;
 
     public GetArteFact(Modele modele,Commandes commandes) {
         this.modele = modele;
         this.commandes = commandes;
     }
 
-    /**recupere artefacte et enleve le bouton**/
+    // recupere artefacte et enleve le bouton
     public void mouseClicked(MouseEvent e) {
         JButton b = (JButton)e.getSource();
         boolean get = false;

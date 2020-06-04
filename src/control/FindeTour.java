@@ -16,7 +16,7 @@ public class FindeTour implements MouseListener {
     }
 
     @Override
-    /**reset et passer au joueur suivant ainsi que inonder 3 zones par le paquet de carte**/
+    // reset et passer au joueur suivant ainsi que inonder 3 zones par le paquet de carte
     public void mouseClicked(MouseEvent e) {
         this.modele.findeTour(3);
         commandes.addArtefacts();

@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 
 public class NaControl implements MouseListener {
     Modele modele;
-    private Commandes commandes;
+    private final Commandes commandes;
 
     public NaControl(Modele m, Commandes commandes) {
         modele = m;
@@ -18,6 +18,7 @@ public class NaControl implements MouseListener {
     }
 
     @Override
+    // Recevoir la click de les bouttons pour le Navigateur
     public void mouseClicked(MouseEvent e) {
         JButton b = (JButton)e.getSource();
         switch (b.getText()){
@@ -43,22 +44,11 @@ public class NaControl implements MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
+    public void mousePressed(MouseEvent e) {}
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
+    public void mouseReleased(MouseEvent e) {}
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
+    public void mouseEntered(MouseEvent e) {}
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 }

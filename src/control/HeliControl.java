@@ -17,8 +17,9 @@ public class HeliControl implements MouseListener {
     }
 
     @Override
-    /**active l'action helicoptere et choisir un joueur sur le meme zone que joueur courant
-     * pour deplacer ensemble avec courant apres**/
+    /* active l'action helicoptere et choisir un joueur sur le meme zone que joueur courant
+     * pour deplacer ensemble avec courant apres *
+    */
     public void mouseClicked(MouseEvent e) {
         this.modele.activeHeli();
 

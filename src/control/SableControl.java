@@ -1,13 +1,9 @@
 package control;
 
-import modele.Joueur;
 import modele.Modele;
-import modele.Zone;
 import vue.Commandes;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class SableControl extends Assecher {
 
@@ -15,13 +11,11 @@ public class SableControl extends Assecher {
         super(m,c);
     }
 
-
     @Override
-    /**Active l'action sac de sable**/
+    // Active l'action sac de sable
     public void mouseClicked(MouseEvent e) {
         this.modele.activeSable();
         this.commandes.myJFrame().requestFocus();
         modele.notifyObservers();
-
     }
 }

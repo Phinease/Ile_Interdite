@@ -9,8 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ExControl implements MouseListener {
-    private Modele modele;
-    private Commandes commandes;
+    private final Modele modele;
+    private final Commandes commandes;
 
     public ExControl(Modele m,Commandes cm){
         modele = m;
@@ -18,6 +18,7 @@ public class ExControl implements MouseListener {
     }
 
     @Override
+    // Recevoir la click de les bouttons pour l'Explorateur
     public void mouseClicked(MouseEvent e) {
         JButton b = (JButton)e.getSource();
         switch (b.getText()){

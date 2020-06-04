@@ -3,7 +3,6 @@ package control;
 import modele.Joueur;
 import modele.Modele;
 import vue.Commandes;
-import vue.Vue;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -20,7 +19,7 @@ public class Assecher implements MouseListener {
     }
 
     @Override
-    /**Ajouter ou enlever des boutons ainsi que activer l'action assecher du zones choisi**/
+    // Ajouter ou enlever des boutons ainsi que activer l'action assecher du zones choisi
     public void mouseClicked(MouseEvent e) {
         if(commandes.getAssBool()){
             commandes.addAssecher();
