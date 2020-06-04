@@ -64,40 +64,49 @@ public class Modele extends vue.Observable {
         }
         HashSet<Integer> hs = new HashSet<>();
         do {
-            int tmp = random.nextInt(6);
+            int tmp = random.nextInt(7);
             hs.add(tmp);
         } while (hs.size() != 4);
-        joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
-                Role.Joueur));
+        //joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+          //      Role.Joueur));
         Iterator<Integer> it = hs.iterator();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             int x = it.next();
-            Role r;
+            System.out.println(x);
             switch (x){
                 case 0:
-                    r = Role.Pilote;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Pilote));
                     break;
                 case 1:
-                    r = Role.Ingenieur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Ingenieur));
                     break;
                 case 2:
-                    r = Role.Explorateur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Explorateur));
                     break;
                 case 3:
-                    r = Role.Navigateur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Navigateur));
                     break;
                 case 4:
-                    r = Role.Plongeur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Plongeur));
                     break;
                 case 5:
-                    r = Role.Messageur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Messageur));
                     break;
                 default:
-                    r = Role.Joueur;
+                    joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+                            Role.Joueur));
                     break;
             }
-            joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1, r));
         }
+        // joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
+          //      Role.Explorateur));
+
 
         //init Paquet
         this.PaquetZone=new Paquet(this.zones, LARGEUR, HAUTEUR);
@@ -235,10 +244,10 @@ public class Modele extends vue.Observable {
 
     /*Déterminer si une zone est sortie du jeu  */
     public boolean horsJeu(Zone e){
-        if(e.getX() < 0 || e.getX() > LARGEUR){
+        if(e.getX() < 1 || e.getX() > LARGEUR){
             return true;
         }
-        return e.getY() < 0 || e.getY() > HAUTEUR;
+        return e.getY() < 1 || e.getY() > HAUTEUR;
     }
 
 
