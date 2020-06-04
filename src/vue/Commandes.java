@@ -221,9 +221,14 @@ public class Commandes extends JPanel implements ExObserver, NaObserver{
         for (JButton b: assEX) {
             this.remove(b);
         }
+        for (JButton b: directions) {
+            this.remove(b);
+        }
         for (JButton b: directionsEx) {
             this.add(b);
         }
+        this.add(assecher);
+        this.remove(cancel);
         repaint();
         this.doLayout();
     }

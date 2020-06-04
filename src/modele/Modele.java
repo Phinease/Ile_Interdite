@@ -255,7 +255,6 @@ public class Modele extends vue.Observable {
         if(courant.testAction()) {
             int x = courant.getPosition().getX();
             int y = courant.getPosition().getY();
-            //courant.addAction();
             switch (e) {
                 case leftup:
                     y -= 1;
@@ -276,12 +275,12 @@ public class Modele extends vue.Observable {
                 default:
                     break;
             }
-            //if (horsJeu(zones[x][y]) || zones[x][y].getStatus() != 1) {
+            cleanAss();
             if (horsJeu(zones[x][y]) || !(zones[x][y].getEtat() instanceof Etat_Inondee)) {
                 return;
             }
-            boolean asse = zones[x][y].assecher();
-            if(asse){courant.addAction();}
+            zones[x][y].assecher();
+            courant.addAction();
         }
     }
 
