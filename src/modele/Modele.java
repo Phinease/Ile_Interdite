@@ -70,9 +70,9 @@ public class Modele extends vue.Observable {
         joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1,
                 Role.Joueur));
         Iterator<Integer> it = hs.iterator();
+        System.out.println("THIS GAME Joueur: \nJoueur");
         for (int i = 0; i < 3; i++) {
             int x = it.next();
-            System.out.println(x);
             Role r;
             switch (x){
                 case 0:
@@ -97,6 +97,7 @@ public class Modele extends vue.Observable {
                     r = Role.Joueur;
                     break;
             }
+            System.out.println(r.toString());
             joueurs.add(new Joueur(this,random.nextInt(LARGEUR)+1,random.nextInt(HAUTEUR)+1, r));
         }
 
@@ -367,7 +368,6 @@ public class Modele extends vue.Observable {
     public Zone getZone(int x,int y){
         return zones[x][y];
     }
-
     public ArrayList<Joueur> getJoueurs(){
         return this.joueurs;
     }
