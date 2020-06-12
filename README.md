@@ -3,9 +3,8 @@
 Université Paris Saclay
 
 L2 INFO PO&GL
-Programmation objet et Génie logiciel
+Programmation objet et Génie logiciel Project
 
-Project
 Cooperated with Peng Ziqian and Guo Xuewen
 
 Professor: Thibaut Balabonski
